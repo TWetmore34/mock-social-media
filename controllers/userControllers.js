@@ -1,4 +1,4 @@
-const { User } = require('../models')
+const { User, Thought } = require('../models')
 
 module.exports = {
     async getUsers(req, res) {
@@ -6,7 +6,10 @@ module.exports = {
         .select('-__v')
         // populate references the row name in users object. when we set that relationship up tho, ref goes to the document name
         .populate('thoughts')
-        .populate('friends')
+        .populate({
+            path: 'friends',
+            select: 'username'
+        })
         res.status(200).json(users)
     },
     // finds user by req.params
@@ -38,7 +41,7 @@ module.exports = {
     async updateUser(req, res) {
         try {
         const updated = await User.findOneAndUpdate(
-            { _id: req.params.user_id} ,
+            { _id: req.params.user_id},
             { $set: req.body },
             { runValidators: true, new: true }
         );
@@ -54,12 +57,18 @@ module.exports = {
         try {
             const deleted = await User.findOneAndDelete({ _id: req.params.user_id })
             if(!deleted) res.status(400).json({ msg: 'User not found' })
-            else res.status(200).json({ msg: 'user deleted', deleted })
+            else {
+                // this should delete all the accosiated thoughts?
+                Thought.deleteMany({ _id: { $in: deleted.thoughts } })
+                res.status(200).json({ msg: 'user deleted', deleted })
+            }
         }
         catch (err) {
             res.status(500).json(err)
         }
     }
+    // add friend
+    
 }
 
 // we'll need .populate for populating reactions to thoughts rather than user, which uses full blown foreign keys (i think??)

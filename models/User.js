@@ -14,10 +14,12 @@ const userSchema = new Schema({
         // this email validate isnt working
         match: [/[A-Za-z0-9\s]+@[A-Za-z\s]+/, 'Please enter a valid email address']
     },
-    thoughts: [{
+    thoughts: [
+    {
         type: Schema.Types.ObjectId,
         ref: 'thought'
-    }],
+    }
+],
     friends: [{
         type: Schema.Types.ObjectId,
         ref: 'user'
