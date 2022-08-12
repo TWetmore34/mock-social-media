@@ -66,10 +66,31 @@ module.exports = {
         catch (err) {
             res.status(500).json(err)
         }
-    }
+    },
     // add friend
-    
+    async addFriend(req, res) {
+        try {
+        const updated = await User.findOneAndUpdate(
+            { _id: req.params.user_id },
+            { $addToSet: { friends: req.params.friend_id } }
+            )
+        res.status(200).json(updated)
+        }
+        catch (err) {
+            res.status(500).json(err)
+        }
+    },
+    // remove friend
+    async removeFriend(req, res) {
+        try {
+        const removed = await User.findByIdAndUpdate(
+            { _id: req.params.user_id },
+            { $pull: { friends: req.params.friend_id } }
+        )
+        res.status(200).json(removed)
+        }
+        catch (err) {
+            res.status(500).json(err)
+        }
+    }
 }
-
-// we'll need .populate for populating reactions to thoughts rather than user, which uses full blown foreign keys (i think??)
-// lets try setting up some thoughts to see
