@@ -1,7 +1,6 @@
 const router = require('express').Router()
+const userRoutes = require('./userRoutes')
 
-router.get('/', (req, res) => {
-    res.end('still working?')
-})
+router.use('/users', userRoutes)
 
 module.exports = router

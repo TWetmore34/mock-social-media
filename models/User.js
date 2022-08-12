@@ -11,10 +11,9 @@ const userSchema = new Schema({
         type: String, 
         unique: true, 
         required: true,  
-        validate: [validateEmail, 'Please enter a valid email'],
+        // this email validate isnt working
         match: [/[A-Za-z0-9\s]+@[A-Za-z\s]+/, 'Please enter a valid email address']
     },
-    // doesnt currently exist
     thoughts: [{
         type: Schema.Types.ObjectId,
         ref: 'Thought'

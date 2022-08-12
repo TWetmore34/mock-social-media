@@ -1,4 +1,4 @@
-const { Types, Schema } = require('mongoose');
+const { Types, Schema, model } = require('mongoose');
 // sub document for thoughts
 reactionSchema = new Schema({
     reactionId: {
@@ -43,4 +43,8 @@ thoughtSchema = new Schema({
     },
     // stored array of reactions
     reactions: [reactionSchema]  
-})
+});
+
+const Thought = model('thought', thoughtSchema);
+
+module.exports = Thought
