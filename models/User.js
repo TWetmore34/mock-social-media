@@ -24,7 +24,19 @@ const userSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'user'
     }]
-});
+}, {
+    toJSON: {
+        virtuals: true
+    },
+    id: false
+}
+);
+
+// for office hours: uncomment line 13 in userControllers
+
+// userSchema.virtual('commentCount').get(function () {
+//     return this.friends.length;
+//   });
 
 const User = model('user', userSchema)
 

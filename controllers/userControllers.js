@@ -10,6 +10,7 @@ module.exports = {
             path: 'friends',
             select: 'username'
         })
+        // console.log(users[0].friends.length)
         res.status(200).json(users)
     },
     // finds user by req.params
@@ -38,11 +39,12 @@ module.exports = {
         }
     },
     // update user
+    // need to find a way to stop this from being able to update the post's username prop
     async updateUser(req, res) {
         try {
         const updated = await User.findOneAndUpdate(
             { _id: req.params.user_id},
-            { $set: req.body },
+            { $set: req.body.thoughtText },
             { runValidators: true, new: true }
         );
         if(!updated) res.status(400).json({ msg: 'User not found' })

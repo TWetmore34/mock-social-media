@@ -1,10 +1,11 @@
 const { Types, Schema, model } = require('mongoose');
 // sub document for thoughts
 reactionSchema = new Schema({
-    reactionId: {
-        type: Schema.Types.ObjectId,
-        default: () => new Types.ObjectId()
-    },
+    // removed this section for now because it made it much easier to delete and update reactions working from the normal random generated ids
+    // reactionId: {
+    //     type: Schema.Types.ObjectId,
+    //     default: () => new Types.ObjectId()
+    // },
     reactionBody: {
         type: String,
         required: true,
