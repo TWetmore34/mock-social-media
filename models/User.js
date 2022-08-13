@@ -32,11 +32,12 @@ const userSchema = new Schema({
 }
 );
 
+
 // for office hours: uncomment line 13 in userControllers
 
-// userSchema.virtual('commentCount').get(function () {
-//     return this.friends.length;
-//   });
+userSchema.virtual('friendCount').get(function () {
+    return this.friends.length;
+  })
 
 const User = model('user', userSchema)
 

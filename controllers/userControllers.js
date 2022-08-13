@@ -61,7 +61,8 @@ module.exports = {
             if(!deleted) res.status(400).json({ msg: 'User not found' })
             else {
                 // this should delete all the accosiated thoughts?
-                Thought.deleteMany({ _id: { $in: deleted.thoughts } })
+                const test = await Thought.deleteMany({ _id: { $in: deleted.thoughts } })
+                console.log(test)
                 res.status(200).json({ msg: 'user deleted', deleted })
             }
         }
