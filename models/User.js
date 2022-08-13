@@ -24,19 +24,20 @@ const userSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'user'
     }]
-}, {
+},
+{
     toJSON: {
-        virtuals: true
+      virtuals: true,
     },
-    id: false
-}
+    id: false,
+  }
 );
 
 
-// for office hours: uncomment line 13 in userControllers
 
+// solution was just removing the restrictions i had placed on the info display. i set it to only include the friend's username, but by changing that, friends arrya exists again
 userSchema.virtual('friendCount').get(function () {
-    return this.friends.length;
+    return this.friends.length
   })
 
 const User = model('user', userSchema)

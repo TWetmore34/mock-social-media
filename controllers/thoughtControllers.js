@@ -73,15 +73,19 @@ module.exports = {
     async updateReaction(req, res) {
         try {
             // find the reaction
-            const thought = await Thought.find({ _id: req.params.thought_id })
-            const reaction = thought[0].reactions.filter(reaction => reaction._id.toString() === req.params.reaction_id)
+            const thought = await Thought.findOneAndUpdate(
+                { _id: req.params.thought_id },
+                { $set: { reactions: req.body } },
+                { runValidators: true, new: true }
+                )
+            // const reaction = thought[0].reactions.filter(reaction => reaction._id.toString() === req.params.reaction_id)
 
             // update into new reaction
 
             // pull the old reaction
 
             // push the new reaction
-            res.status(200).json(reaction)
+            res.status(200).json(thought)
         }
         catch (err) {
             res.status(500).json(err)
@@ -92,7 +96,12 @@ module.exports = {
         try {
             const thought = await Thought.findOneAndUpdate(
                 { _id: req.params.thought_id },
-                { $pull: { reactions: { _id: req.params.reaction_id } } }
+                { 
+                    // as of now, this is pulling everything but the req.body out?
+                    // somehow both the push and the pull are resetting the whole array
+                    $push: { reactions: req.body }, 
+                    // $pull: { reactions: { $in: req.params.reaction_id } }
+            }
                 )
             res.status(200).json(thought)
         }

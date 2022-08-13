@@ -7,10 +7,9 @@ module.exports = {
         // populate references the row name in users object. when we set that relationship up tho, ref goes to the document name
         .populate('thoughts')
         .populate({
-            path: 'friends',
-            select: 'username'
+            path: 'friends'
         })
-        // console.log(users[0].friends.length)
+        // console.log(users[1].friends.length)
         res.status(200).json(users)
     },
     // finds user by req.params
@@ -44,7 +43,7 @@ module.exports = {
         try {
         const updated = await User.findOneAndUpdate(
             { _id: req.params.user_id},
-            { $set: req.body.thoughtText },
+            { $set: req.body.$.thoughtText },
             { runValidators: true, new: true }
         );
         if(!updated) res.status(400).json({ msg: 'User not found' })
